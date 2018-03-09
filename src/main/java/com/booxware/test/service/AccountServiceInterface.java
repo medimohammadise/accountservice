@@ -3,6 +3,8 @@ package com.booxware.test.service;
 import com.booxware.test.domain.Account;
 import com.booxware.test.exception.AccountServiceException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -62,5 +64,5 @@ public interface AccountServiceInterface {
 	 * @throws AccountServiceException
 	 *             if any error occurs
 	 */
-	public boolean hasLoggedInSince(Date date);
+	public boolean hasLoggedInSince(LocalDateTime date);
 }

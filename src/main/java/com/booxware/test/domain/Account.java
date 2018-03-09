@@ -1,9 +1,12 @@
 package com.booxware.test.domain;
 
+
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * The encryption can be very simple, we don't put much emphasis on the
@@ -15,7 +18,7 @@ public class Account implements Serializable {
 	public Account(){
 
 	}
-	public Account(String username,byte[] encryptedPassword,String salt,String email,LocalDate lastLogin){
+	public Account(String username,byte[] encryptedPassword,String salt,String email,LocalDateTime lastLogin){
 		this.id=id;
 		this.username=username;
 		this.encryptedPassword=encryptedPassword;
@@ -35,7 +38,7 @@ public class Account implements Serializable {
 
 	private String email;
 
-	private LocalDate lastLogin;
+	private LocalDateTime lastLogin;
 
 	public int getId() {
 		return id;
@@ -69,11 +72,11 @@ public class Account implements Serializable {
 		this.email = email;
 	}
 
-	public LocalDate getLastLogin() {
+	public LocalDateTime getLastLogin() {
 		return lastLogin;
 	}
 
-	public void setLastLogin(LocalDate lastLogin) {
+	public void setLastLogin(LocalDateTime lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 
