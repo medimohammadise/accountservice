@@ -27,7 +27,7 @@ public class AccountService implements AccountServiceInterface {
 
     @Override
     public Account login(String username, String password) {
-        Account loggedInAccount = accountRepository.findByUsernameEqualsAndEncryptedPasswordEquals(username, encoder.encodePassword(password, username.toUpperCase() + "@").getBytes());
+        Account loggedInAccount = accountRepository.findByUsernameEqualsAndEncryptedPasswordEquals(username, encoder.encodePassword(password, username.toUpperCase() + "@"));
         Calendar calendar = Calendar.getInstance();
         if (loggedInAccount != null) {
             loggedInAccount.setLastLogin(new Date(calendar.getTime().getTime()));
@@ -43,7 +43,7 @@ public class AccountService implements AccountServiceInterface {
 
     @Override
     public Account register(String username, String email, String password) {
-        Account account = new Account(username, encoder.encodePassword(password, username.toUpperCase() + "@").getBytes(), "Mr", email, null);
+        Account account = new Account(username, encoder.encodePassword(password, username.toUpperCase() + "@"), "Mr", email, null);
         account = accountRepository.save(account);
         return account;
     }

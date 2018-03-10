@@ -4,7 +4,6 @@ package com.booxware.test.domain;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 
 /**
@@ -17,7 +16,7 @@ public class Account implements Serializable {
 	public Account(){
 
 	}
-	public Account(String username,byte[] encryptedPassword,String salt,String email,Date lastLogin){
+	public Account(String username,String encryptedPassword,String salt,String email,Date lastLogin){
 		this.id=id;
 		this.username=username;
 		this.encryptedPassword=encryptedPassword;
@@ -31,7 +30,7 @@ public class Account implements Serializable {
 
 	private String username;
 
-	private byte[] encryptedPassword;
+	private String encryptedPassword;
 
 	private String salt;
 
@@ -49,11 +48,11 @@ public class Account implements Serializable {
 		this.id = id;
 	}
 
-	public byte[] getEncryptedPassword() {
+	public String getEncryptedPassword() {
 		return encryptedPassword;
 	}
 
-	public void setEncryptedPassword(byte[] encryptedPassword) {
+	public void setEncryptedPassword(String encryptedPassword) {
 		this.encryptedPassword = encryptedPassword;
 	}
 

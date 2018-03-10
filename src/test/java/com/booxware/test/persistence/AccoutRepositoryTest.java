@@ -1,11 +1,8 @@
 package com.booxware.test.persistence;
 
 import com.booxware.test.config.PersistenceConfiguration;
-import com.booxware.test.config.ServiceConfiguration;
 import com.booxware.test.domain.Account;
-import com.booxware.test.exception.AccountServiceException;
 import com.booxware.test.repository.AccountRepository;
-import com.booxware.test.service.UserManagementTestAPIConfig;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -13,18 +10,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
@@ -56,7 +48,7 @@ public class AccoutRepositoryTest {
     @Test
     public void testCreateAccount(){
         //accountService.register("test1","test1@gmail.com","1234");
-        Account account=new Account("test1",encoder.encodePassword("test1","test1".toUpperCase()+"@").getBytes() ,"Mr","test1@tipico.com",null);
+        Account account=new Account("test1",encoder.encodePassword("test1","test1".toUpperCase()+"@").toString() ,"Mr","test1@tipico.com",null);
         accountRepository.save(account);
     }
     @Test

@@ -22,7 +22,7 @@ public class AccountServiceResource {
 
     @RequestMapping(value="login",method = {RequestMethod.POST}, produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
     public @ResponseBody Account login(@RequestBody LoginResource loginResource){
-        return accountService.login(loginResource.getUsername(),loginResource.getUsername());
+        return accountService.login(loginResource.getUsername(),loginResource.getPassword());
     }
 
     @RequestMapping(value="register",method = {RequestMethod.POST}, produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
