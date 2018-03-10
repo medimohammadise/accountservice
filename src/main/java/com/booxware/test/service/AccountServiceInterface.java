@@ -64,5 +64,5 @@ public interface AccountServiceInterface {
 	 * @throws AccountServiceException
 	 *             if any error occurs
 	 */
-	public boolean hasLoggedInSince(LocalDateTime date);
+	public boolean hasLoggedInSince(java.sql.Date date);
 }

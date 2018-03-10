@@ -4,18 +4,23 @@ import com.booxware.test.config.PersistenceConfiguration;
 import com.booxware.test.config.ServiceConfiguration;
 import com.booxware.test.domain.Account;
 import com.booxware.test.repository.AccountRepository;
+import com.booxware.test.service.UserManagementTestAPIConfig;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
@@ -23,7 +28,7 @@ import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {PersistenceConfiguration.class,ServiceConfiguration.class})
+@ContextConfiguration(loader = AnnotationConfigContextLoader.class, classes = {PersistenceConfiguration.class})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccoutRepositoryTest {
     @Autowired
@@ -31,6 +36,9 @@ public class AccoutRepositoryTest {
 
     @Autowired
     MessageDigestPasswordEncoder encoder;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     @Test
     public void testCreateAccount(){
@@ -53,7 +61,8 @@ public class AccoutRepositoryTest {
 
     @Test
     public void testLoggedInAfterTimeStamp(){
-        Account account= accountRepository.findByUsernameEqualsAndLastLoginAfter ("test1",LocalDateTime.now().minusDays(1));
+        Calendar calendar=Calendar.getInstance();
+        Account account= accountRepository.findByUsernameEqualsAndLastLoginAfter ("test1",new Date(calendar.getTime().getTime()));
         assertNotNull(account);
 
     }

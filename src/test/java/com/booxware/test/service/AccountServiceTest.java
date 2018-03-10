@@ -13,27 +13,40 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {UserManagementTestAPIConfig.class,PersistenceConfiguration.class,ServiceConfiguration.class})
+@ContextConfiguration(classes = {ServiceConfiguration.class,PersistenceConfiguration.class})
+@WebAppConfiguration
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountServiceTest {
+    @Autowired
+    private WebApplicationContext webApplicationContext; // cached
 
     @Autowired
-    AccountService accountService;
+    AccountServiceInterface accountService;
 
     @Autowired
     AccountRepository accountRepository;
 
+    private MockMvc mockMvc;
+
     @Before
     public void setUp() throws Exception {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @After
@@ -42,20 +55,20 @@ public class AccountServiceTest {
     @Test
     public void testCreateAccount(){
         Account newAccount=createMock(Account.class);
-        expect(accountService.register("user2","user2@tipico.com","user2")).andReturn(newAccount).once();
-        replay(newAccount);
+        newAccount= accountService.register("user2","user2@tipico.com","user2");
+        assertEquals("user2",newAccount.getUsername());
     }
     @Test
     public void testLoginAccount(){
         Account loggedInAccount=createMock(Account.class);
-        expect(accountService.login("user2","user2") ).andReturn(loggedInAccount).once();
-        replay(loggedInAccount);
+        loggedInAccount=accountService.login("user2","user2");
+        assertEquals("user2",loggedInAccount.getUsername());
     }
     @Test
     public void testLogonAfter(){
-
-       expect(accountService.hasLoggedInSince(LocalDateTime.now().minusDays(1))).andReturn(true);
-
+        Calendar calendar = Calendar.getInstance();
+        boolean isLoggedIn=accountService.hasLoggedInSince(new Date(calendar.getTime().getTime() ));
+        assertEquals(true,isLoggedIn);
     }
     @Test
     public void testUnRegisterAccount(){

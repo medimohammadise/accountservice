@@ -1,10 +1,9 @@
 package com.booxware.test.domain;
 
 
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 
@@ -18,7 +17,7 @@ public class Account implements Serializable {
 	public Account(){
 
 	}
-	public Account(String username,byte[] encryptedPassword,String salt,String email,LocalDateTime lastLogin){
+	public Account(String username,byte[] encryptedPassword,String salt,String email,Date lastLogin){
 		this.id=id;
 		this.username=username;
 		this.encryptedPassword=encryptedPassword;
@@ -28,7 +27,7 @@ public class Account implements Serializable {
 	}
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private int id;
+	private long id;
 
 	private String username;
 
@@ -38,13 +37,15 @@ public class Account implements Serializable {
 
 	private String email;
 
-	private LocalDateTime lastLogin;
 
-	public int getId() {
+	//@Column(columnDefinition = "DATE")
+	private Date lastLogin;
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -72,11 +73,11 @@ public class Account implements Serializable {
 		this.email = email;
 	}
 
-	public LocalDateTime getLastLogin() {
+	public Date getLastLogin() {
 		return lastLogin;
 	}
 
-	public void setLastLogin(LocalDateTime lastLogin) {
+	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 
@@ -86,5 +87,10 @@ public class Account implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	@Override
+	public String toString() {
+		return "userName: "+this.username+" email: "+this.email+" loginDataTime: "+this.lastLogin;
 	}
 }
