@@ -17,10 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan({"com.booxware.test.service"})
 @EnableWebMvc
 public class ServiceConfiguration extends WebMvcConfigurerAdapter {
-    @Bean
-    MessageDigestPasswordEncoder getMessageDigestpasswordEncoder(){
-        return  new Md5PasswordEncoder();
-    }
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();

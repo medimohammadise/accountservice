@@ -66,7 +66,8 @@ public class AccountServiceTest {
     }
     @Test
     public void testLogonAfter(){
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
         boolean isLoggedIn=accountService.hasLoggedInSince(new Date(calendar.getTime().getTime() ));
         assertEquals(true,isLoggedIn);
     }

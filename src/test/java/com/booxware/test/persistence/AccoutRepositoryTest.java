@@ -3,19 +3,24 @@ package com.booxware.test.persistence;
 import com.booxware.test.config.PersistenceConfiguration;
 import com.booxware.test.config.ServiceConfiguration;
 import com.booxware.test.domain.Account;
+import com.booxware.test.exception.AccountServiceException;
 import com.booxware.test.repository.AccountRepository;
 import com.booxware.test.service.UserManagementTestAPIConfig;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -34,11 +39,19 @@ public class AccoutRepositoryTest {
     @Autowired
     AccountRepository accountRepository;
 
-    @Autowired
-    MessageDigestPasswordEncoder encoder;
+
+
+
+    MessageDigestPasswordEncoder encoder ;
 
     @Autowired
     ApplicationContext applicationContext;
+
+    @Before
+    public void setUp() throws Exception {
+        encoder = new Md5PasswordEncoder();
+    }
+
 
     @Test
     public void testCreateAccount(){
@@ -57,11 +70,17 @@ public class AccoutRepositoryTest {
     public void testLogin(){
         Account account= accountRepository.findByUsernameEqualsAndEncryptedPasswordEquals ("test1",encoder.encodePassword("test1","test1".toUpperCase()+"@").getBytes());
         assertNotNull(account);
+        Calendar calendar=Calendar.getInstance();
+        if (account!=null)
+            account.setLastLogin(new Date(calendar.getTime().getTime()));
+
+        accountRepository.save(account);
     }
 
     @Test
-    public void testLoggedInAfterTimeStamp(){
+    public void testLoginAfterTimeStamp(){
         Calendar calendar=Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
         Account account= accountRepository.findByUsernameEqualsAndLastLoginAfter ("test1",new Date(calendar.getTime().getTime()));
         assertNotNull(account);
 
