@@ -25,7 +25,7 @@ public interface AccountServiceInterface {
 	 * @throws AccountServiceException
 	 *             if any errors occur
 	 */
-	public Account login(String username, String password);
+	public Account login(String username, String password) throws AccountServiceException;
 
 	/**
 	 * Registers a new Account, if the username doesn't exist yet and logs in
@@ -42,7 +42,7 @@ public interface AccountServiceInterface {
 	 * @throws AccountServiceException
 	 *             if any errors occur
 	 */
-	public Account register(String username, String email, String password);
+	public Account register(String username, String email, String password) throws AccountServiceException;
 
 	/**
 	 * Deletes an Account, if the user exist.
@@ -53,7 +53,7 @@ public interface AccountServiceInterface {
 	 * @throws AccountServiceException
 	 *             if any errors occur
 	 */
-	public void deleteAccount(String username);
+	public void deleteAccount(String username) throws AccountServiceException;
 
 	/**
 	 * Checks if a user has logged in since a provided timestamp.
@@ -64,5 +64,5 @@ public interface AccountServiceInterface {
 	 * @throws AccountServiceException
 	 *             if any error occurs
 	 */
-	public boolean hasLoggedInSince(java.sql.Date date);
+	public boolean hasLoggedInSince(java.sql.Date date) throws AccountServiceException;
 }

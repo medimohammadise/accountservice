@@ -21,7 +21,10 @@ public class ServiceConfiguration extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-
+    @Bean
+    public MessageDigestPasswordEncoder getMessageDigestPasswordEncoder(){
+        return new Md5PasswordEncoder();
+    }
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
