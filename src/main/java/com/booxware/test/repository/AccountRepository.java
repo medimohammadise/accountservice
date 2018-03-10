@@ -10,4 +10,5 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
     Account findAccountByusername(String userName);
     Account findByUsernameEqualsAndLastLoginAfter(String userName,Date timeStamp);
     Account findByUsernameEqualsAndEncryptedPasswordEquals(String username,byte[] clearTextpassword);
+    Account findByUsername(String username);
 }

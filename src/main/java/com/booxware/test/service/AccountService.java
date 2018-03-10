@@ -58,7 +58,21 @@ public class AccountService implements AccountServiceInterface {
     @Override
     public boolean hasLoggedInSince(Date date) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication==null)
+            throw new AccountServiceException("You need to login for using this service");
         Account account = accountRepository.findByUsernameEqualsAndLastLoginAfter(authentication.getName() , date);
         return account != null;
     }
+
+    @Override
+    public List<Account> getAllUserAccounts() throws AccountServiceException {
+        return  accountRepository.findAll();
+    }
+
+    @Override
+    public boolean checkUserExists(String userName) {
+        return accountRepository.findByUsername(userName)!=null;
+    }
+
+
 }

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @PropertySource("classpath:usermanagement.properties")
-@ComponentScan({"com.booxware.test.service"})
+@ComponentScan({"com.booxware.test"})
 @EnableWebMvc
 public class ServiceConfiguration extends WebMvcConfigurerAdapter {
     @Override

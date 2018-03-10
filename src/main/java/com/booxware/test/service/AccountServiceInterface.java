@@ -6,6 +6,7 @@ import com.booxware.test.exception.AccountServiceException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Service for account management.
@@ -65,4 +66,7 @@ public interface AccountServiceInterface {
 	 *             if any error occurs
 	 */
 	public boolean hasLoggedInSince(java.sql.Date date) throws AccountServiceException;
+
+	public List<Account> getAllUserAccounts() throws AccountServiceException;
+	public boolean checkUserExists(String userName);
 }
