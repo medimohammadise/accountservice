@@ -147,5 +147,5 @@ false: s//shows user has not logged in after this date
 ## How to test it
 
 easiest way to test by using  **postman**  [default url is **http://localhost:8080**]
-you can dowanload and import sample post man collection from here file://UserManagement.postman_collection.json
+you can dowanload and import sample post man collection from here https://raw.githubusercontent.com/medimohammadise/accountservice/master/UserManagement.postman_collection.json
 
