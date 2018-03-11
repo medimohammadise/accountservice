@@ -5,8 +5,13 @@ Login(userName,password)
 isLoggedInSince(DateTime)
 DeleteUser
 
+# Architecture
 For the backend an embedded H2 Database is used.
-There is one user pre-loaded on the initialization *init.sql* script:
+I have used spring security for protecting services .
+There is one user pre-loaded on the initialization *initialdata-load.sql* script:
+I have domain,repository,service,rest layer as main layers in architecture .
+I have used TDD for development and You can find test class for Repositoy and Service and rest layers.
+I have incorporated Junit,EasyMock libraries for testing purpose.
 
 username | password | email
 ---|---|---
@@ -44,7 +49,7 @@ Body: {
 Login incorrect response:
 ```
 Code: 500
-Body: AccountServiceException: username or password is not valid
+Body: AccountServiceException: username or password is not valid with stack trace!
 ```
 
 **GET api/account/listAll**
@@ -77,7 +82,7 @@ Body: [
 ]
 ```
 
-**GET api/account/register**
+**POST api/account/register**
 Request:
 ```
 Headers:
@@ -116,15 +121,15 @@ Content-Type: application/json
 sample success response:
 ```
 Code: 200
-false  //shows user does not exist any more
+true  //shows user does not exist any more
 ```
 sample unsucsessfull response:
 ```
 Code: 200
-true: shows user is still there
+false: shows user is still there
 ```
 
-**GET api/account/loggedInAfter**
+**GET api/account/loggedInAfter** Date with format yyyy-mm-dd hh:mm:ss
 Request:
 ```
 Headers:
@@ -147,5 +152,4 @@ false: s//shows user has not logged in after this date
 ## How to test it
 
 easiest way to test by using  **postman**  [default url is **http://localhost:8080**]
-you can dowanload and import sample post man collection from here https://raw.githubusercontent.com/medimohammadise/accountservice/master/UserManagement.postman_collection.json
-
+you can download and import sample post man collection from UserManagement.postman_collection.json that included in the project's root
