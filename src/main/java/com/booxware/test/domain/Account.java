@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 /**
  * The encryption can be very simple, we don't put much emphasis on the
  * encryption algorithm.
+ * I'm using MD5 for encrypting password
  */
 @Entity
 @Table(name = "user_account")

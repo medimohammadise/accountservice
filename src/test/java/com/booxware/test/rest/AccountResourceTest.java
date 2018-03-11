@@ -1,6 +1,6 @@
 package com.booxware.test.rest;
 
-import com.booxware.test.config.SecurityConfig;
+import com.booxware.test.config.SecurityConfiguration;
 import com.booxware.test.config.ServiceConfiguration;
 import com.booxware.test.rest.dto.AccountResource;
 import com.booxware.test.rest.dto.LoginResource;
@@ -13,6 +13,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -22,19 +27,23 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {ServiceConfiguration.class, SecurityConfig.class})
+@ContextConfiguration(classes = {ServiceConfiguration.class, SecurityConfiguration.class})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountResourceTest {
     private MockMvc mockMvc;
+    @Autowired
+    FilterChainProxy springSecurityFilterChain;
 
     @Autowired
     private WebApplicationContext webApplicationContext; // cached
@@ -42,7 +51,7 @@ public class AccountResourceTest {
 
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).alwaysDo(MockMvcResultHandlers.print()).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(SecurityMockMvcConfigurers.springSecurity(springSecurityFilterChain)).alwaysDo(MockMvcResultHandlers.print()).build();
     }
 
     @Autowired
@@ -57,32 +66,26 @@ public class AccountResourceTest {
         accountResource.setPassword("user3");
         accountResource.setEmail("user3@tipico.com");
         MvcResult result  = mockMvc.perform(post("/api/account/register")
-
                 .contentType(MediaType.APPLICATION_JSON)
-
                 .content(mapper.writeValueAsString(accountResource)))
-
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
-
-
-
     }
+
     @Test
     public void testLoginAccount() throws Exception  {
         ObjectMapper mapper=new ObjectMapper();
         LoginResource loginResource =new LoginResource();
         loginResource.setUsername("user3");
         loginResource.setPassword("user3");
-        MvcResult result  = mockMvc.perform(post("/api/account/login")
-
+        mockMvc.perform(post("/api/account/login")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-
                 .content(mapper.writeValueAsString(loginResource)))
-
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username").value("user3"))
                 .andReturn();
     }
 
@@ -96,7 +99,6 @@ public class AccountResourceTest {
                 .andDo(print())
                 .andReturn();
         System.out.print(result.getResponse().getContentAsString());
-       // assertEquals(true, result.getResponse().toString());
     }
 
     @Test

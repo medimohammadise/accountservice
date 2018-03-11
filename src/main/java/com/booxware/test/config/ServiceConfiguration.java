@@ -1,6 +1,5 @@
 package com.booxware.test.config;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +11,8 @@ import org.springframework.security.authentication.encoding.MessageDigestPasswor
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.zalando.problem.ProblemModule;
+import org.zalando.problem.validation.ConstraintViolationProblemModule;
 
 @Configuration
 @PropertySource("classpath:usermanagement.properties")
@@ -33,6 +34,21 @@ public class ServiceConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public MappingJackson2HttpMessageConverter httpMessageConverter() {
         return  new MappingJackson2HttpMessageConverter();
+    }
+    /*
+     * Module for serialization/deserialization of RFC7807 Problem.
+     */
+    @Bean
+    ProblemModule problemModule() {
+        return new ProblemModule();
+    }
+
+    /*
+     * Module for serialization/deserialization of ConstraintViolationProblem.
+     */
+    @Bean
+    ConstraintViolationProblemModule constraintViolationProblemModule() {
+        return new ConstraintViolationProblemModule();
     }
 
 }

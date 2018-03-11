@@ -1,6 +1,8 @@
 package com.booxware.test.rest.dto;
 
-public class LoginResource {
+import java.io.Serializable;
+
+public class LoginResource implements Serializable{
     private String username;
 
     private String password;

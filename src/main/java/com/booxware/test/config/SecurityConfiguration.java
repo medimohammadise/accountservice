@@ -15,43 +15,31 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 @Configuration
 @EnableWebMvcSecurity
 @ComponentScan({"com.booxware.test"})
-//@EnableGlobalMethodSecurity(securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//@EnableGlobalMethodSecurity(securedEnabled = true) For simplicity I'm not securing methods based on Role right now
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomAuthenticationProvider authenticationProvider;
-
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider);
     }
 
-
-
-
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
-
+    //TODO  Problem spring web need to incrorporated here for translating spring security exceptions
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/*").permitAll()
-                //.antMatchers("/api/account/login").permitAll()
                 .anyRequest().permitAll()
-                //.and()
-                //.logout()
-                //.permitAll()
-                //.logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .getConfigurer(ExceptionHandlingConfigurer.class);
-        //.accessDeniedHandler(accessDeniedHandler)
-        //.authenticationEntryPoint(authenticationEntryPoint);
     }
 }

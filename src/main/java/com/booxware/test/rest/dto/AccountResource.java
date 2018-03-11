@@ -1,8 +1,9 @@
 package com.booxware.test.rest.dto;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class AccountResource {
+public class AccountResource implements Serializable {
     private String username;
 
     private String password;

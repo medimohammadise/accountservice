@@ -3,15 +3,12 @@ package com.booxware.test.rest;
 import com.booxware.test.domain.Account;
 import com.booxware.test.rest.dto.AccountResource;
 import com.booxware.test.rest.dto.LoginResource;
-import com.booxware.test.service.AccountService;
 import com.booxware.test.service.AccountServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -21,6 +18,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AccountServiceResource {
     @Autowired
     AccountServiceInterface accountService;
+
+
 
     @RequestMapping(value="login",method = {RequestMethod.POST}, produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
     public @ResponseBody Account login(@RequestBody LoginResource loginResource){

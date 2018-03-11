@@ -21,7 +21,7 @@ public class ServletInitializer extends AbstractDispatcherServletInitializer {
     @Override
     protected WebApplicationContext createServletApplicationContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(SecurityConfig.class,ServiceConfiguration.class, PersistenceConfiguration.class);
+        context.register(SecurityConfiguration.class,ServiceConfiguration.class, PersistenceConfiguration.class);
         return context;
     }
 

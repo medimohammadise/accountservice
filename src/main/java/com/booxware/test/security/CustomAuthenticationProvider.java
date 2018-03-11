@@ -7,7 +7,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-
+/*
+  CustomAuthenticationProvider is just simple provider for this module but extendable off-course for future
+ */
 @Component
 public class CustomAuthenticationProvider
         implements AuthenticationProvider {
@@ -20,15 +22,7 @@ public class CustomAuthenticationProvider
         String password = authentication.getCredentials().toString();
         return new UsernamePasswordAuthenticationToken(
                 name, password, new ArrayList<>());
-        /*if (shouldAuthenticateAgainstThirdPartySystem()) {
 
-            // use the credentials
-            // and authenticate against the third-party system
-            return new UsernamePasswordAuthenticationToken(
-                    name, password, new ArrayList<>());
-        } else {
-            return null;
-        }*/
     }
 
     @Override

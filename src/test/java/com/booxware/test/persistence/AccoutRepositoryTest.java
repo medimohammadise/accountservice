@@ -16,8 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
@@ -33,9 +31,6 @@ public class AccoutRepositoryTest {
     @Autowired
     AccountRepository accountRepository;
 
-
-
-
     MessageDigestPasswordEncoder encoder ;
 
     @Autowired
@@ -43,13 +38,11 @@ public class AccoutRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        encoder = new Md5PasswordEncoder();
+        encoder = new Md5PasswordEncoder();  //we need to create instance ourselve becuase spring context is not available here
     }
-
 
     @Test
     public void testCreateAccount(){
-        //accountService.register("test1","test1@gmail.com","1234");
         Account account=new Account("test1",encoder.encodePassword("test1","test1".toUpperCase()+"@").toString() ,"Mr","test1@tipico.com",null);
         accountRepository.save(account);
     }
@@ -90,6 +83,5 @@ public class AccoutRepositoryTest {
         assertNull(deleted);
     }
 
-    public static class AccoutServiceTest {
-    }
+
 }

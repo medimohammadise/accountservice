@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\":\"user2\",\n\t\"password\":\"user1\"\n}"
+					"raw": "{\n\t\"username\":\"user1\",\n\t\"password\":\"user1\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/account/login",
@@ -146,7 +146,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/account/loggedInAfter",
+					"raw": "http://localhost:8080/api/account/loggedInAfter/2018-03-10 1:00:00",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -155,7 +155,8 @@
 					"path": [
 						"api",
 						"account",
-						"loggedInAfter"
+						"loggedInAfter",
+						"2018-03-10 1:00:00"
 					]
 				},
 				"description": ""
