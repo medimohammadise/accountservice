@@ -1,9 +1,11 @@
 package com.booxware.test.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 
 /**
@@ -16,7 +18,7 @@ public class Account implements Serializable {
 	public Account(){
 
 	}
-	public Account(String username,String encryptedPassword,String salt,String email,Date lastLogin){
+	public Account(String username,String encryptedPassword,String salt,String email,Timestamp lastLogin){
 		this.id=id;
 		this.username=username;
 		this.encryptedPassword=encryptedPassword;
@@ -37,8 +39,8 @@ public class Account implements Serializable {
 	private String email;
 
 
-	//@Column(columnDefinition = "DATE")
-	private Date lastLogin;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+	private Timestamp lastLogin;
 
 	public long getId() {
 		return id;
@@ -72,11 +74,11 @@ public class Account implements Serializable {
 		this.email = email;
 	}
 
-	public Date getLastLogin() {
+	public Timestamp getLastLogin() {
 		return lastLogin;
 	}
 
-	public void setLastLogin(Date lastLogin) {
+	public void setLastLogin(Timestamp lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 

@@ -3,6 +3,7 @@ package com.booxware.test.service;
 import com.booxware.test.domain.Account;
 import com.booxware.test.exception.AccountServiceException;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -65,8 +66,8 @@ public interface AccountServiceInterface {
 	 * @throws AccountServiceException
 	 *             if any error occurs
 	 */
-	public boolean hasLoggedInSince(java.sql.Date date) throws AccountServiceException;
+	public boolean hasLoggedInSince(Timestamp date) throws AccountServiceException;
 
 	public List<Account> getAllUserAccounts() throws AccountServiceException;
-	public boolean checkUserExists(String userName);
+	public Account checkUserExists(String userName);
 }

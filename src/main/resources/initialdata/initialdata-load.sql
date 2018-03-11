@@ -6,7 +6,7 @@ CREATE TABLE user_account (
     encryptedPassword VARCHAR(100) NOT NULL,
     salt VARCHAR(32) NOT NULL,
     email VARCHAR(200) NOT NULL,
-    lastlogin DATE
+    lastlogin timestamp
 );
 
 

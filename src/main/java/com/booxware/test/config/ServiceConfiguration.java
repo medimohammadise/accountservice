@@ -1,5 +1,6 @@
 package com.booxware.test.config;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,7 @@ public class ServiceConfiguration extends WebMvcConfigurerAdapter {
     }
     @Bean
     public MappingJackson2HttpMessageConverter httpMessageConverter() {
-        return new MappingJackson2HttpMessageConverter();
+        return  new MappingJackson2HttpMessageConverter();
     }
+
 }

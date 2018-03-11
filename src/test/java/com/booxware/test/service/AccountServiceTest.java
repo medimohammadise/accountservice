@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
@@ -66,9 +67,10 @@ public class AccountServiceTest {
     }
     @Test
     public void testLogonAfter(){
-        final Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
-        boolean isLoggedIn=accountService.hasLoggedInSince(new Date(calendar.getTime().getTime() ));
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        boolean isLoggedIn=accountService.hasLoggedInSince(new Timestamp(cal.getTime().getTime()));
         assertEquals(true,isLoggedIn);
     }
     @Test

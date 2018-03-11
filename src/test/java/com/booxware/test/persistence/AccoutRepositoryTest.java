@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
@@ -60,20 +62,20 @@ public class AccoutRepositoryTest {
 
     @Test
     public void testLogin(){
-        Account account= accountRepository.findByUsernameEqualsAndEncryptedPasswordEquals ("test1",encoder.encodePassword("test1","test1".toUpperCase()+"@").getBytes());
+        Account account= accountRepository.findByUsernameEqualsAndEncryptedPasswordEquals ("test1",encoder.encodePassword("test1","test1".toUpperCase()+"@"));
         assertNotNull(account);
         Calendar calendar=Calendar.getInstance();
         if (account!=null)
-            account.setLastLogin(new Date(calendar.getTime().getTime()));
+            account.setLastLogin(new Timestamp(System.currentTimeMillis()));
 
         accountRepository.save(account);
     }
 
     @Test
     public void testLoginAfterTimeStamp(){
-        Calendar calendar=Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
-        Account account= accountRepository.findByUsernameEqualsAndLastLoginAfter ("test1",new Date(calendar.getTime().getTime()));
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        Account account= accountRepository.findByUsernameEqualsAndLastLoginAfter ("test1",new Timestamp(cal.getTime().getTime()));
         assertNotNull(account);
 
     }

@@ -4,6 +4,7 @@ import com.booxware.test.domain.Account;
 import com.booxware.test.exception.AccountServiceException;
 import com.booxware.test.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,16 +28,19 @@ public class AccountService implements AccountServiceInterface {
     @Autowired
     MessageDigestPasswordEncoder encoder;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
+
     @Override
     public Account login(String username, String password) {
         Account loggedInAccount = accountRepository.findByUsernameEqualsAndEncryptedPasswordEquals(username, encoder.encodePassword(password, username.toUpperCase() + "@"));
-        Calendar calendar = Calendar.getInstance();
         if (loggedInAccount != null) {
-            loggedInAccount.setLastLogin(new Date(calendar.getTime().getTime()));
+            loggedInAccount.setLastLogin( new Timestamp(System.currentTimeMillis()));
             List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
             list.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, password,list);
             SecurityContextHolder.getContext().setAuthentication(auth);
+            authenticationManager.authenticate(auth);
         }
         else
             throw new AccountServiceException("username or password is not valid");
@@ -56,7 +62,7 @@ public class AccountService implements AccountServiceInterface {
     }
 
     @Override
-    public boolean hasLoggedInSince(Date date) {
+    public boolean hasLoggedInSince(Timestamp date) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication==null)
             throw new AccountServiceException("You need to login for using this service");
@@ -70,8 +76,8 @@ public class AccountService implements AccountServiceInterface {
     }
 
     @Override
-    public boolean checkUserExists(String userName) {
-        return accountRepository.findByUsername(userName)!=null;
+    public Account checkUserExists(String userName) {
+        return accountRepository.findByUsername(userName);
     }
 
 

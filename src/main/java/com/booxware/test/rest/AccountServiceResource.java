@@ -4,11 +4,13 @@ import com.booxware.test.domain.Account;
 import com.booxware.test.rest.dto.AccountResource;
 import com.booxware.test.rest.dto.LoginResource;
 import com.booxware.test.service.AccountService;
+import com.booxware.test.service.AccountServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/api/account")
 public class AccountServiceResource {
     @Autowired
-    AccountService accountService;
+    AccountServiceInterface accountService;
 
     @RequestMapping(value="login",method = {RequestMethod.POST}, produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
     public @ResponseBody Account login(@RequestBody LoginResource loginResource){
@@ -38,14 +40,13 @@ public class AccountServiceResource {
     @RequestMapping(value="delete/{userName}",method = {RequestMethod.DELETE}, produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
     public @ResponseBody boolean  deleteAccounts(@PathVariable String userName) {
         accountService.deleteAccount(userName);
-        return accountService.checkUserExists(userName);
+        Account account= accountService.checkUserExists(userName);
+        return (account==null);
     }
 
-    @RequestMapping(value="loggedInAfter",method = {RequestMethod.GET}, produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
-    public @ResponseBody Boolean  isloggedInAfter() {
-        final Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
-        return accountService.hasLoggedInSince(new Date(calendar.getTime().getTime() ));
+    @RequestMapping(value="loggedInAfter/{specificDateTime}",method = {RequestMethod.GET}, produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
+    public @ResponseBody Boolean  isloggedInAfter(@PathVariable String specificDateTime) {
+        return accountService.hasLoggedInSince(Timestamp.valueOf(specificDateTime));
 
 
     }
