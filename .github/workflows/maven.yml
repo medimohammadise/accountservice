@@ -15,7 +15,5 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn package --file pom.xml
-   - name: GitHub Action for Heroku
-      uses: actions/heroku@1.0.0
 
   
