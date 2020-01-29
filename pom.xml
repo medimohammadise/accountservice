@@ -18,7 +18,7 @@
         <servlet.jstl.version>1.2</servlet.jstl.version>
         <hibernate.version>4.2.6.Final</hibernate.version>
         <h2.version>1.4.187</h2.version>
-        <easymock.version>3.4</easymock.version>
+        <easymock.version>4.2</easymock.version>
         <servlet.api.version>3.0.1</servlet.api.version>
         <jackson.databind.version>2.3.2</jackson.databind.version>
     </properties>
